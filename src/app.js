@@ -15,8 +15,8 @@ app.use(morgan(morganOption))
 app.use(cors())
 app.use(helmet())
 
-app.get('/', (req, res) => {
-    res.send('Hello, world!')
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/index.html');
 })
 
 app.use(function errorHandler(error, req, res, next) {

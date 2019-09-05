@@ -1,8 +1,16 @@
 const app = require('./app')
-var server = require('http').Server(app)
-var io = require('socket.io')(server)
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
+const knex = require('knex')
 
-const { PORT } = require('./config')
+const { PORT, DB_URL } = require('./config')
+
+const db = knex({
+  client: 'pg',
+  connection: DB_URL,
+})
+
+app.set('db', db)
 
 server.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`)
@@ -12,14 +20,22 @@ const nsp = io.of('/chat')
 nsp.on('connection', socket => {
   console.log(`user connected!`)
   socket.emit('welcome', "connected to chat")
-  socket.on('joinRoom', roomName => {
-    socket.join(roomName)
-    console.log()
-  })
 })
 
 // listens for connection to socket.io
 io.on('connection', socket => {
+
+  socket.on('joinRoom', info => {
+    const room = socket.join(info.roomName)
+
+    room.emit('welcome message', { 
+      message: `You have successfully joined ${info.roomName}!` 
+    })
+    room.broadcast.emit('user joined room', { 
+      message: `${info.username} has joined.` 
+    })
+    console.log(`${info.username} has joined:`, info.roomName)
+  })
 
   // on connection, server emits 'news' socket 
   // with object hello: world
@@ -33,11 +49,16 @@ io.on('connection', socket => {
 
   // listens for 'newMessage' socket then
   // logs newMsg
-  socket.on('newMessage', newMsg => {
-    console.log(newMsg)
+  socket.on('newMessage', messageToRoom => {
+    console.log('here--------------')
+    const { username, message } = messageToRoom
+    const incomingMsg = { username, message }
+    console.log('stuff:',messageToRoom)
+    // then sends newMsg to everyone except sender
+    socket.to(messageToRoom.roomName).emit('incoming message', incomingMsg)
 
     // then sends newMsg to everyone except sender
-    socket.broadcast.emit('incoming message', newMsg)
+    //socket.broadcast.emit('incoming message', newMsg)
   })
 
   // listens for 'disconnected' socket then

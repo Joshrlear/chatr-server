@@ -31,7 +31,10 @@ io.on('connection', socket => {
     room.emit('welcome message', { 
       message: `You have successfully joined ${info.roomName}!` 
     })
-    room.broadcast.emit('user joined room', { 
+    /* room.broadcast.emit('user joined room', { 
+      message: `${info.username} has joined.` 
+    }) */
+    socket.to(info.roomName).emit('user joined room', { 
       message: `${info.username} has joined.` 
     })
     console.log(`${info.username} has joined:`, info.roomName)

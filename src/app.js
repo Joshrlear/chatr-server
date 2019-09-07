@@ -4,6 +4,10 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
+//const bodyParser = require('body-parser')
+const usersRouter = require('./users/users-router')
+const roomsRouter = require('./rooms/rooms-router')
+const userRoomsRouter = require('./userRooms/userRooms-router')
 
 const app = express()
 
@@ -14,10 +18,16 @@ const morganOption = (NODE_ENV === 'production')
 app.use(morgan(morganOption))
 app.use(cors())
 app.use(helmet())
+app.use(require('body-parser').urlencoded({ extended: true }))
+//app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 })
+
+app.use('/users', usersRouter)
+app.use('/rooms', roomsRouter)
+app.use('/userRooms', userRoomsRouter)
 
 app.use(function errorHandler(error, req, res, next) {
     let response

@@ -54,14 +54,23 @@ io.on('connection', socket => {
   // logs newMsg
   socket.on('newMessage', messageToRoom => {
     console.log('here--------------')
-    const { username, message } = messageToRoom
-    const incomingMsg = { username, message }
+    const { username, message, timestamp } = messageToRoom
+    const incomingMsg = { username, message, timestamp }
     console.log('stuff:',messageToRoom)
     // then sends newMsg to everyone except sender
     socket.to(messageToRoom.roomName).emit('incoming message', incomingMsg)
 
     // then sends newMsg to everyone except sender
     //socket.broadcast.emit('incoming message', newMsg)
+  })
+
+  socket.on('typing', user => {
+    console.log(user)
+    socket.broadcast.emit('typing', user)
+  })
+
+  socket.on('stop typing', user => {
+    socket.broadcast.emit('stop typing', user)
   })
 
   // listens for 'disconnected' socket then

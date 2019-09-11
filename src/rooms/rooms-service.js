@@ -14,12 +14,21 @@ const roomServices = {
     },
 
     //find room by roomName
-    getRoom(knex, name) {
+    getRoomByName(knex, name) {
         console.log('logging here in rooms-services line 17')
         return knex
             .select('*')
             .from('rooms')
-            .where({ name })
+            .where(name)
+    },
+
+    //find room by id
+    getRoomById(knex, id) {
+        console.log('logging here in rooms-services line 27', id)
+        return knex
+            .select('*')
+            .from('rooms')
+            .where(id)
     },
 }
 

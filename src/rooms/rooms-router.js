@@ -31,33 +31,67 @@ roomsRouter
     })
 
 roomsRouter
-    .route('/:roomName')
+    .route('/:roomQuery')
     .get((req, res, next) => {
-        const roomName = req.params.roomName
-        console.log('line 14 rooms-router', roomName)
+        console.log('--------------', req.params)
+        let roomQuery
 
-        if (!roomName) {
-            next(new Error('No roomName provided'))
+        // number or NAN
+        req.params.roomQuery.split("=")[1] == 'id'
+            ?   (roomQuery = {
+                    [req.params.roomQuery.split("=")[1]]: parseInt(req.params.roomQuery.split("=")[0])
+                })
+            :   (roomQuery = {
+                    [req.params.roomQuery.split("=")[1]]: req.params.roomQuery.split("=")[0]
+                })
+
+        console.log('line 14 rooms-router', roomQuery)
+
+        if (!roomQuery) {
+            next(new Error('No roomQuery provided'))
         }
         else {
-            roomServices.getRoom(
-                req.app.get('db'),
-                roomName
-            )
-            .then(room => {
-                if (!room || room.length == 0) {
-                    console.log('-------------- no room')
-                    return res
-                        .status(404)
-                        .json()
-                }
-                else {
-                    console.log('-------------- room:', room[0])
-                    return res
-                        .status(200)
-                        .json(room[0])
-                }
-            })
+            console.log(Object.keys(roomQuery) == 'id')
+            console.log(roomQuery)
+            Object.keys(roomQuery) == 'id' 
+                &&  roomServices.getRoomById(
+                    req.app.get('db'),
+                    roomQuery
+                )
+                .then(room => {
+                    if (!room || room.length == 0) {
+                        console.log('-------------- no room')
+                        return res
+                            .status(404)
+                            .json()
+                    }
+                    else {
+                        console.log('-------------- room:', room[0])
+                        return res
+                            .status(200)
+                            .json(room[0])
+                    }
+                })
+            console.log('////////////logging')
+            Object.keys(roomQuery) == 'name'
+                &&  roomServices.getRoomByName(
+                    req.app.get('db'),
+                    roomQuery
+                )
+                .then(room => {
+                    if (!room || room.length == 0) {
+                        console.log('-------------- no room')
+                        return res
+                            .status(404)
+                            .json()
+                    }
+                    else {
+                        console.log('-------------- room:', room[0])
+                        return res
+                            .status(200)
+                            .json(room[0])
+                    }
+                })
         }
     })
 

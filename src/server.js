@@ -24,6 +24,18 @@ nsp.on('connection', socket => {
 
 // listens for connection to socket.io
 io.on('connection', socket => {
+  console.log('user connected')
+
+  // room for info share between same client components
+  socket.on('connect to components', connection_id => {
+    console.log('joining:', connection_id)
+    const componentConnection = socket.join(connection_id)
+  })
+
+  socket.on('changePointerEvents', value => {
+    console.log('changing click events!', value)
+    socket.to(value.connection_id).emit('changePointerEvents', value.event)
+  })
 
   socket.on('joinRoom', info => {
     const room = socket.join(info.roomName)

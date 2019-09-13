@@ -1,5 +1,6 @@
 const express = require('express');
 const roomServices = require('./rooms-service');
+const _ = require('underscore')
 
 const roomsRouter = express.Router();
 const jsonParser = express.json();
@@ -9,18 +10,30 @@ const serializeRoom = room => ({
     name: room.name
 })
 
+// create room or get all rooms
 roomsRouter
     .route('/')
-    .post(jsonParser, (req, res, next) => {
+    .all(jsonParser, (req, res, next) => {
+        const knex = req.app.get('db')
         console.log('================== this is the req:', req.body)
         const { roomName } = req.body
-        console.log('* * * * * Line 15 rooms-router roomName should be right here:', roomName)
-        if(!roomName) {
-            next(new Error('No roomName provided'))
+        req.body && console.log('* * * * * Line 15 rooms-router roomName should be right here:', roomName)
+        if(_.isEmpty(roomName)) {
+            // get all rooms
+            console.log('no roomName so we will return all rooms')
+            roomServices.getAllRooms(
+                knex
+            )
+            .then(data => {
+                console.log('this is the date from the getAllRooms request:',data)
+                return res
+                    .status(200)
+                    .json(data)
+            })
         }
         else {
             roomServices.createRoom(
-                req.app.get('db'),
+                knex,
                 roomName
             )
             .then(data => {

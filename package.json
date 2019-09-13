@@ -24,7 +24,8 @@
     "knex": "^0.19.3",
     "morgan": "^1.9.1",
     "pg": "^7.12.1",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "underscore": "^1.9.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",

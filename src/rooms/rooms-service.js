@@ -30,6 +30,14 @@ const roomServices = {
             .from('rooms')
             .where(id)
     },
+
+    getAllRooms(knex) {
+        console.log('getting all rooms, rooms-services line35')
+        return knex
+            .select('*')
+            .from('rooms')
+            .orderBy('id', 'desc')
+    }
 }
 
 module.exports = roomServices;

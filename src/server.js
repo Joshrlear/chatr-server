@@ -76,13 +76,13 @@ io.on('connection', socket => {
     //socket.broadcast.emit('incoming message', newMsg)
   })
 
-  socket.on('typing', user => {
-    console.log(user)
-    socket.broadcast.emit('typing', user)
+  socket.on('typing', info => {
+    console.log(info)
+    socket.to(info.roomName).broadcast.emit('typing', info.user)
   })
 
-  socket.on('stop typing', user => {
-    socket.broadcast.emit('stop typing', user)
+  socket.on('stop typing', info => {
+    socket.to(info.roomName).broadcast.emit('stop typing', info.user)
   })
 
   // listens for 'disconnected' socket then

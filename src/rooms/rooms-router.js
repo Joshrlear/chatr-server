@@ -5,11 +5,6 @@ const _ = require('underscore')
 const roomsRouter = express.Router();
 const jsonParser = express.json();
 
-const serializeRoom = room => ({
-    id: room.id,
-    name: room.name
-})
-
 // create room or get all rooms
 roomsRouter
     .route('/')

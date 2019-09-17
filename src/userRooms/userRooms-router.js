@@ -73,7 +73,7 @@ userRoomsRouter
 
 userRoomsRouter
     .route('/userLeavesRoom')
-    .post(jsonParser, (req, res, next) => {
+    .delete(jsonParser, (req, res, next) => {
         const { user_id, rooms_id } = req.body
         const userRoomsInfo = { user_id, rooms_id }
         console.log('line 44 userRooms-router', user_id, rooms_id)

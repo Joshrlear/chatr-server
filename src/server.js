@@ -40,7 +40,7 @@ io.on('connection', socket => {
   socket.on('joinRoom', info => {
     const room = socket.join(info.roomName)
 
-    room.emit('welcome message', { 
+    room.emit('welcome message', {
       message: `You have successfully joined ${info.roomName}!` 
     })
     /* room.broadcast.emit('user joined room', { 
@@ -87,7 +87,11 @@ io.on('connection', socket => {
 
   // listens for 'disconnected' socket then
   // logs {username} disconnected
-  socket.on('disconnected', user => {
-    console.log(user, 'has successfully disconnected!')
+  socket.on('disconnected', userLeaving => {
+    const room = socket.leave(userLeaving.roomName)
+    room.emit('user left message', {
+      message: `${userLeaving.username} has left ${userLeaving.roomName}` 
+    })
+    console.log(userLeaving.username, 'has successfully disconnected!')
   })
 })

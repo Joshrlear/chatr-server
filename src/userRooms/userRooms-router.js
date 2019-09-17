@@ -87,14 +87,14 @@ userRoomsRouter
             )
             .then(row => {
                 console.log('this is the result from userLeavesRoom:', row)
-                if (row.length == 0) {
+                if (row === 1) {
                     console.log('-------------- user was removed from room')
                     return res
                         .status(204)
                         .json(row)
                 }
                 else {
-                    console.log('-------------- row.length is not 0:', row)
+                    console.log('-------------- row:', row)
                     throw new Error('could not remove user from room')
                 }
             })

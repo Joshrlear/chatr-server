@@ -25,10 +25,9 @@ const userRoomsServices = {
     // remove userRooms entry
     userLeavesRoom(knex, userRoomsInfo){
         console.log('llllllllllllll userRooms-services, userLeavesRoom:', userRoomsInfo)
-        return knex
-            .delete('*')
-            .from('userrooms')
+        return knex('userrooms')
             .where(userRoomsInfo)
+            .del()
     }
 }
 module.exports = userRoomsServices;

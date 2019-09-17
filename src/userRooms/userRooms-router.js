@@ -91,7 +91,7 @@ userRoomsRouter
                     console.log('-------------- user was removed from room')
                     return res
                         .status(204)
-                        .json()
+                        .json(row)
                 }
                 else {
                     console.log('-------------- row.length is not 0:', row)

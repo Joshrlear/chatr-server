@@ -85,6 +85,11 @@ io.on('connection', socket => {
     socket.to(info.roomName).broadcast.emit('stop typing', info.user)
   })
 
+  socket.on('userLeavesRoom', userLeavingInfo => {
+    console.log('user is starting to leave the room', userLeavingInfo)
+    socket.to(userLeavingInfo.connection_id).emit('userLeavesRoom', userLeavingInfo)
+  })
+
   // listens for 'disconnected' socket then
   // logs {username} disconnected
   socket.on('disconnected', userLeaving => {

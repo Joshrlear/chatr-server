@@ -19,11 +19,6 @@ app.use(cors())
 app.use(helmet())
 app.use(require('body-parser').urlencoded({ extended: true }))
 
-/* app.get('/', function (req, res) {
-    console.log('00000000000((((((((((',__dirname + '/index.js')
-    res.sendFile(__dirname + '/index.html');
-}) */
-
 app.use('/users', usersRouter)
 app.use('/rooms', roomsRouter)
 app.use('/userRooms', userRoomsRouter)

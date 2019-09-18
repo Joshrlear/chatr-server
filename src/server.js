@@ -18,13 +18,11 @@ server.listen(PORT, () => {
 
 const nsp = io.of('/chat')
 nsp.on('connection', socket => {
-  console.log(`user connected!`)
   socket.emit('welcome', "connected to chat")
 })
 
 // listens for connection to socket.io
 io.on('connection', socket => {
-  console.log('user connected')
 
   // room for info share between same client components
   socket.on('connect to components', connection_id => {
@@ -33,7 +31,6 @@ io.on('connection', socket => {
   })
 
   socket.on('changePointerEvents', value => {
-    console.log('changing click events!', value)
     socket.to(value.connection_id).emit('changePointerEvents', value.event)
   })
 
@@ -52,23 +49,11 @@ io.on('connection', socket => {
     console.log(`${info.username} has joined:`, info.roomName)
   })
 
-  // on connection, server emits 'news' socket 
-  // with object hello: world
-  socket.emit('news', { hello: 'world' })
-
-  // server listens for 'my other event' socket 
-  // and then logs the data that was sent
-  socket.on('my other event', data => {
-    console.log(data);
-  })
-
   // listens for 'newMessage' socket then
   // logs newMsg
   socket.on('newMessage', messageToRoom => {
-    console.log('here--------------')
     const { username, message, timestamp } = messageToRoom
     const incomingMsg = { username, message, timestamp }
-    console.log('stuff:',messageToRoom)
     // then sends newMsg to everyone except sender
     socket.to(messageToRoom.roomName).emit('incoming message', incomingMsg)
 
@@ -77,7 +62,6 @@ io.on('connection', socket => {
   })
 
   socket.on('typing', info => {
-    console.log(info)
     socket.to(info.roomName).broadcast.emit('typing', info.user)
   })
 
@@ -86,7 +70,6 @@ io.on('connection', socket => {
   })
 
   socket.on('userLeavesRoom', userLeavingInfo => {
-    console.log('user is starting to leave the room', userLeavingInfo)
     socket.to(userLeavingInfo.connection_id).emit('userLeavesRoom', userLeavingInfo)
   })
 

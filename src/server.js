@@ -16,11 +16,6 @@ server.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`)
 })
 
-const nsp = io.of('/chat')
-nsp.on('connection', socket => {
-  socket.emit('welcome', "connected to chat")
-})
-
 // listens for connection to socket.io
 io.on('connection', socket => {
 
@@ -36,17 +31,17 @@ io.on('connection', socket => {
 
   socket.on('joinRoom', info => {
     const room = socket.join(info.roomName)
+    console.log(info.username, 'has joined', info.roomName)
 
-    room.emit('welcome message', {
-      message: `You have successfully joined ${info.roomName}!` 
-    })
-    /* room.broadcast.emit('user joined room', { 
-      message: `${info.username} has joined.` 
-    }) */
     socket.to(info.roomName).emit('user joined room', { 
       message: `${info.username} has joined.` 
     })
     console.log(`${info.username} has joined:`, info.roomName)
+  })
+
+  socket.on('leaveRoom', info => {
+    const room = socket.leave(info.roomName)
+    console.log(info.username, 'left', info.roomName)
   })
 
   // listens for 'newMessage' socket then
@@ -56,9 +51,6 @@ io.on('connection', socket => {
     const incomingMsg = { username, message, timestamp }
     // then sends newMsg to everyone except sender
     socket.to(messageToRoom.roomName).emit('incoming message', incomingMsg)
-
-    // then sends newMsg to everyone except sender
-    //socket.broadcast.emit('incoming message', newMsg)
   })
 
   socket.on('typing', info => {

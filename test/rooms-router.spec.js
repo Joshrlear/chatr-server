@@ -39,11 +39,10 @@ describe('getting chatroom from roomQuery', () => {
         })
     });
 
-    it('returns 404 when room not found', () => {
+    it('returns 204 when room not found', () => {
       return request(app)
         .get(`/rooms/0=id`)
         .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(404)
+        .expect(204)
     });
   });

@@ -59,7 +59,7 @@ roomsRouter
                 .then(room => {
                     if (!room || room.length == 0) {
                         return res
-                            .status(404)
+                            .status(204)
                             .json()
                     }
                     else {
@@ -76,7 +76,7 @@ roomsRouter
                 .then(room => {
                     if (!room || room.length == 0) {
                         return res
-                            .status(404)
+                            .status(204)
                             .json()
                     }
                     else {

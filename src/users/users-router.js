@@ -40,7 +40,7 @@ usersRouter
             .then(user => {
                 if (!user || user.length == 0) {
                     return res
-                        .status(404)
+                        .status(204)
                         .json()
                 }
                 else {

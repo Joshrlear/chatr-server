@@ -21,7 +21,7 @@ describe('user', () => {
             .get('/users/banana')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(404, done())
+            .expect(204, done())
     })
 
     it('successfully creates user in db', (done) => {

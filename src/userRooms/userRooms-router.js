@@ -23,7 +23,7 @@ userRoomsRouter
             .then(row => {
                 if (!row || row.length == 0) {
                     return res
-                        .status(404)
+                        .status(204)
                         .json()
                 }
                 else {
@@ -53,7 +53,7 @@ userRoomsRouter
             .then(row => {
                 if (!row || row.length == 0) {
                     return res
-                        .status(404)
+                        .status(204)
                         .json()
                 }
                 else {
@@ -70,7 +70,7 @@ userRoomsRouter
         const { user_id, rooms_id } = req.body
         const userRoomsInfo = { user_id, rooms_id }
         if (!user_id || !rooms_id) {
-            next(new Error('No user id or room id specified'))
+            res.send('invalid user_id or rooms_id')
         }
         else {
             userLeavesRoom(

@@ -32,7 +32,7 @@ describe('userRooms', () => {
             .get('/userRooms/0/0')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(404, done())
+            .expect(204, done())
     })
 
     it('successfully creates userRooms connection in db', (done) => {

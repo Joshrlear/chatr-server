@@ -10,38 +10,39 @@ Try it out: https://chat-client.joshrlear.now.sh/
 
 git clone into your project folder. Make sure to git clone the client files as well: https://github.com/Joshrlear/chatr-client<br>
 Run: "npm i" to update all depedencies
-Open them both. For client-side run: "npm start". For server run : "npm run dev"
+For server run : "npm run dev"
 
 ### `Api Docs`
 
 No external api. All api makes calls to postgres database.
 the database can recieve the following req methods: GET, POST, DELETE
 
-- user enters name > GET(check for user) > POST (create if doesn't exist)
-![main profile page](src/images/main-profile-page.png)
-- user enters new name while in chatroom > DELETE (remove userRooms row that corresponds to user_id and rooms_id) > POST (create new userRooms row - manyToMany relational table)
-![chatroom edit name](src/images/chatroom-new-name.png)
-- user enters room > socket.io (add user to room) > POST (create new userRooms row)
-![chatroom](src/images/profile-overlay.png)
-- user leaves room > socket.io (remove user from room) > DELETE from userRooms
-![rooms page](src/images/rooms-page.png)
-- user creates room > socket.io (user joins room) > GET (check rooms to see if room exists) > POST (if doesn't exist, room created in rooms table) > GET (check userRooms table if userRooms connection exists) > POST (if userRooms doesn't exist, create userRooms connection)
-![create room](src/images/create-room.png)
+- user enters name > GET('/api/users')(check for user) > POST('/api/users') (create if doesn't exist)
+
+- user enters new name while in chatroom > DELETE('/api/userrooms') (remove userRooms row that corresponds to user_id and rooms_id) > POST('/api/userrooms') (create new userRooms row - manyToMany relational table)
+
+- user enters room > socket.io (add user to room) > POST('/api/userrooms') (create new userRooms row)
+
+- user leaves room > socket.io (remove user from room) > DELETE('/api/userrooms') from userRooms
+
+- user creates room > socket.io (user joins room) > GET('/api/rooms') (check rooms to see if room exists) > POST('/api/rooms') (if doesn't exist, room created in rooms table) > GET('/api/userrooms') (check userRooms table if userRooms connection exists) > POST('/api/userrooms') (if userRooms doesn't exist, create userRooms connection)
+
 - user types > socket.io (broadcast.emit userTyping message to all but user)
-![user typing](src/images/user-typing.png)
+
 - user stops typing > socket.io (wait 3 seconds, then end broadcast.emit userTyping messasge)
-![user stops typing](src/images/message-preview.png)
+
 - user sends message > socket.io (if exists, end userTyping message) > socket.io (broadcast.emit message: { user_id, username, rooms_id, roomName, timeStamp })
-![send message](src/images/word-wrap.png)
+
 
 ### `Built with:`
 
-- React
-- scss
 - Nodejs
 - postgresql
+- knex
+- underscore
 - socket.io
-- deployed to zeit (front-end) & heroku (backend)
+- heroku
+- testing: mocha, chai
 
 ### `Features`
 

@@ -18,7 +18,7 @@ describe('userRooms', () => {
 
     it('successfully gets userRooms entry', (done) => {
         return request(app)
-            .get('/userRooms/1/1')
+            .get('/api/userRooms/1/1')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200,{
@@ -29,7 +29,7 @@ describe('userRooms', () => {
 
     it('given info finds no userRooms entry', (done) => {
         return request(app)
-            .get('/userRooms/0/0')
+            .get('/api/userRooms/0/0')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(204, done())
@@ -37,7 +37,7 @@ describe('userRooms', () => {
 
     it('successfully creates userRooms connection in db', (done) => {
         return request(app)
-          .post(`/userRooms`)
+          .post(`/api/userRooms`)
           .set('Accept', 'application/json')
           .send({
               user_id: 2,
@@ -52,7 +52,7 @@ describe('userRooms', () => {
 
       it('deletes userRooms entry in db on /userLeavesRoom',  (done) => {
         return request(app)
-            .delete(`/userRooms/userLeavesRoom`)
+            .delete(`/api/userRooms/userLeavesRoom`)
             .set('Accept', 'application/json')
             .send({
                 user_id: 2,

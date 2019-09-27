@@ -18,7 +18,7 @@ describe('user', () => {
 
     it('given info finds no user', (done) => {
         return request(app)
-            .get('/users/banana')
+            .get('/api/users/banana')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(204, done())
@@ -26,7 +26,7 @@ describe('user', () => {
 
     it('successfully creates user in db', (done) => {
         return request(app)
-          .post(`/users`)
+          .post(`/api/users`)
           .send({
               username: "banana"
           })
@@ -43,7 +43,7 @@ describe('user', () => {
 
       it('successfully gets user', (done) => {
         return request(app)
-            .get('/users/banana')
+            .get('/api/users/banana')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200,{

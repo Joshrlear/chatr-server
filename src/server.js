@@ -62,6 +62,7 @@ io.on('connection', socket => {
   })
 
   socket.on('userLeavesRoom', userLeavingInfo => {
+    console.log(userLeavingInfo)
     socket.to(userLeavingInfo.connection_id).emit('userLeavesRoom', userLeavingInfo)
   })
 

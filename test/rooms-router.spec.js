@@ -18,7 +18,7 @@ describe('getting chatroom from roomQuery', () => {
   
     it('successfully gets all room', () => {
       return request(app)
-        .get(`/rooms`)
+        .get(`/api/rooms`)
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
@@ -26,7 +26,7 @@ describe('getting chatroom from roomQuery', () => {
 
     it('successfully gets 1 room', () => {
       return request(app)
-        .get(`/rooms/1=id`)
+        .get(`/api/rooms/1=id`)
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect((res) => {
@@ -41,7 +41,7 @@ describe('getting chatroom from roomQuery', () => {
 
     it('returns 204 when room not found', () => {
       return request(app)
-        .get(`/rooms/0=id`)
+        .get(`/api/rooms/0=id`)
         .set('Accept', 'application/json')
         .expect(204)
     });

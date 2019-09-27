@@ -19,9 +19,9 @@ app.use(cors())
 app.use(helmet())
 app.use(require('body-parser').urlencoded({ extended: true }))
 
-app.use('/users', usersRouter)
-app.use('/rooms', roomsRouter)
-app.use('/userRooms', userRoomsRouter)
+app.use('/api/users', usersRouter)
+app.use('/api/rooms', roomsRouter)
+app.use('/api/userRooms', userRoomsRouter)
 
 app.use(function errorHandler(error, req, res, next) {
     let response

@@ -23,7 +23,7 @@
     "helmet": "^3.21.0",
     "knex": "^0.19.4",
     "morgan": "^1.9.1",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "pg": "^7.12.1",
     "socket.io": "^2.2.0",
     "underscore": "^1.9.1"
